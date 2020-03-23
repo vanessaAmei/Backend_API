@@ -1,0 +1,254 @@
+#resultsearch{ 
+	padding: 0px; 
+	display: none; 
+	position: absolute; 
+	max-height: 350px;
+	overflow: auto;
+	border:1px solid #ddd;
+	z-index: 1;
+}
+
+#daftar-autocomplete { 
+	list-style:none; 
+	margin:0; 
+	padding:0; 
+	width:100%;
+}
+
+#daftar-autocomplete li {
+	padding: 5px 10px 5px 10px; 
+	background:#FAFAFA; 
+	border-bottom:#ddd 1px solid;
+}
+
+#daftar-autocomplete li:hover,
+#daftar-autocomplete li.autocomplete_active { 
+	background:#2a84ae; 
+	color:#fff; 
+	cursor: pointer;
+}
+
+#resultsearchsupplier{ 
+	padding: 0px; 
+	display: none; 
+	position: absolute; 
+	max-height: 350px;
+	overflow: auto;
+	border:1px solid #ddd;
+	z-index: 1;
+}
+
+#daftar-autocomplete-supplier { 
+	list-style:none; 
+	margin:0; 
+	padding:0; 
+	width:100%;
+}
+
+#daftar-autocomplete-supplier li {
+	padding: 5px 10px 5px 10px; 
+	background:#FAFAFA; 
+	border-bottom:#ddd 1px solid;
+}
+
+#daftar-autocomplete-supplier li:hover,
+#daftar-autocomplete-supplier li.autocompletesupplier_active { 
+	background:#2a84ae; 
+	color:#fff; 
+	cursor: pointer;
+}
+
+.info_pelanggan {
+	margin-bottom: 0px;
+}
+
+.info_pelanggan td {
+	padding: 2px;
+	text-align: left;
+}
+
+/*-------------------------------------- TRANSAKSI --------------------------------*/
+
+
+#resultBarang{ 
+	padding: 0px; 
+	display: none; 
+	position: absolute; 
+	max-height: 350px;
+	overflow: auto;
+	border:1px solid #ddd;
+	z-index: 1;
+}
+
+#daftar-Barang { 
+	list-style:none; 
+	margin:0; 
+	padding:0; 
+	width:100%;
+}
+
+#daftar-Barang li {
+	padding: 5px 10px 5px 10px; 
+	background:#FAFAFA; 
+	border-bottom:#ddd 1px solid;
+}
+
+#daftar-Barang li:hover,
+#daftar-Barang li.autoBarang_active { 
+	background:#2a84ae; 
+	color:#fff; 
+	cursor: pointer;
+}
+
+#resultPO{ 
+	padding: 0px; 
+	display: none; 
+	position: absolute; 
+	max-height: 350px;
+	overflow: auto;
+	border:1px solid #ddd;
+	z-index: 1;
+}
+
+#daftar-PO { 
+	list-style:none; 
+	margin:0; 
+	padding:0; 
+	width:100%;
+}
+
+#daftar-PO li {
+	padding: 5px 10px 5px 10px; 
+	background:#FAFAFA; 
+	border-bottom:#ddd 1px solid;
+}
+
+#daftar-PO li:hover,
+#daftar-PO li.autoPO_active { 
+	background:#2a84ae; 
+	color:#fff; 
+	cursor: pointer;
+}
+
+/* -------------------------------------------------TrPenjualan------------------------------------------ */
+
+#resultCus{ 
+	padding: 0px; 
+	display: none; 
+	position: absolute; 
+	max-height: 350px;
+	overflow: auto;
+	border:1px solid #ddd;
+	z-index: 1;
+}
+
+#daftar-Cus { 
+	list-style:none; 
+	margin:0; 
+	padding:0; 
+	width:100%;
+}
+
+#daftar-Cus li {
+	padding: 5px 10px 5px 10px; 
+	background:#FAFAFA; 
+	border-bottom:#ddd 1px solid;
+}
+
+#daftar-Cus li:hover,
+#daftar-Cus li.autoCus_active { 
+	background:#2a84ae; 
+	color:#fff; 
+	cursor: pointer;
+}
+
+#resultSV{ 
+	padding: 0px; 
+	display: none; 
+	position: absolute; 
+	max-height: 350px;
+	overflow: auto;
+	border:1px solid #ddd;
+	z-index: 1;
+}
+
+#daftar-SV { 
+	list-style:none; 
+	margin:0; 
+	padding:0; 
+	width:100%;
+}
+
+#daftar-SV li {
+	padding: 5px 10px 5px 10px; 
+	background:#FAFAFA; 
+	border-bottom:#ddd 1px solid;
+}
+
+#daftar-SV li:hover,
+#daftar-SV li.autoSV_active { 
+	background:#2a84ae; 
+	color:#fff; 
+	cursor: pointer;
+}
+
+
+#rNoPolSV{ 
+	padding: 0px; 
+	display: none; 
+	position: absolute; 
+	max-height: 350px;
+	overflow: auto;
+	border:1px solid #ddd;
+	z-index: 1;
+}
+
+#daftar-noSV { 
+	list-style:none; 
+	margin:0; 
+	padding:0; 
+	width:100%;
+}
+
+#daftar-noSV li {
+	padding: 5px 10px 5px 10px; 
+	background:#FAFAFA; 
+	border-bottom:#ddd 1px solid;
+}
+
+#daftar-noSV li:hover,
+#daftar-noSV li.autonoSV_active { 
+	background:#2a84ae; 
+	color:#fff; 
+	cursor: pointer;
+}
+
+#rMontirSV{ 
+	padding: 0px; 
+	display: none; 
+	position: absolute; 
+	max-height: 350px;
+	overflow: auto;
+	border:1px solid #ddd;
+	z-index: 1;
+}
+
+#daftar-montirSV { 
+	list-style:none; 
+	margin:0; 
+	padding:0; 
+	width:100%;
+}
+
+#daftar-montirSV li {
+	padding: 5px 10px 5px 10px; 
+	background:#FAFAFA; 
+	border-bottom:#ddd 1px solid;
+}
+
+#daftar-montirSV li:hover,
+#daftar-montirSV li.automontirSV_active { 
+	background:#2a84ae; 
+	color:#fff; 
+	cursor: pointer;
+}
