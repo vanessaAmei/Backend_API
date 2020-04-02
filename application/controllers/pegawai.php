@@ -16,8 +16,41 @@ Class Pegawai extends REST_Controller
 
     public function index_get() //Method GET untuk mengambil semua Data pada Database
     {
-        $query = $this->pegawai_model->getAll();
+        $id = $this->get('id_pegawai');
+        $peran = $this->get('peran');
+        
+        if ($id == '' && $peran == '') {
+            $query = $this->pegawai_model->getAll();
+            echo json_encode($query);
+        }else if($id == ''){
+            $this->db->where('peran', $peran);
+            $kontak = $this->db->get('pegawai')->result();
+            $this->response($kontak, 200);
+        }else if($peran == ''){
+            $this->db->where('id_pegawai', $id);
+            $kontak = $this->db->get('pegawai')->result();
+            $this->response($kontak, 200);
+        }
+        
+    }
+        // $query = $this->pegawai_model->getAll();
+        // echo json_encode($query);
+
+    public function getNameCS() //Method GET untuk mengambil semua Data pada Database
+    {
+        $query = $this->pegawai_model->getCS();
         echo json_encode($query);
+    }
+
+    public function changePassword_post()
+    {
+        $id = $this->post('id_pegawai');
+        $new = $this->post('password');
+
+        $change = $this->pegawai_model->change_pass($id, $new);
+        if($change) {
+             $this->response($change, 200);
+        }
     }
 
     public function index_post($id = null) //Method Post untuk menyimpan Data namun disini juga disamain untuk update, jadi tidak ada method Put

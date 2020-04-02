@@ -11,7 +11,6 @@ class produk_model extends CI_Model
     public $stok;
     public $satuan;
     public $gambar;
-    public $deskripsi;
     public $create_at;
     public $updated_at;
     public $deleted_at; 
@@ -45,11 +44,6 @@ class produk_model extends CI_Model
             'field' => 'satuan',
             'label' => 'satuan',
             'rules' => 'required'
-        ],
-        [
-            'field' => 'deskripsi',
-            'label' => 'deskripsi',
-            'rules' => 'required'
         ]
     ];
     public function Rules() { return $this->rule; } //Fungsi untuk return nilai rule dimana untuk di cek
@@ -62,13 +56,15 @@ class produk_model extends CI_Model
         // return $this->db->get()->result();
 
     }
+
+    
+
     public function store($request) {   //Fungsi untuk menyimpan data
         $this->nama = $request->nama;   //Gunakan $Request untuk mengambil data yang diinputkan oleh user
         $this->harga = $request->harga;
         $this->stok = $request->stok;
         $this->minimal = $request->minimal;
         $this->satuan = $request->satuan;
-        $this->deskripsi = $request->deskripsi;
         $this->gambar = $this->_uploadImage();
         $this->create_at = date("Y-m-d H:i:s"); //Mengambil nilai date dari local sesuai format, jadi untuk format ini menggunakan Timestamp
         if($this->db->insert($this->table, $this))
@@ -85,8 +81,7 @@ class produk_model extends CI_Model
                         'harga' => $request->harga, 
                         'stok' => $request->stok, 
                         'minimal' => $request->minimal,
-                        'satuan' => $request->satuan,
-                        'deskripsi' => $request->deskripsi, 
+                        'satuan' => $request->satuan, 
                         'gambar' => $this->_uploadImage(),
                         'updated_at' => $this->updated_at]; //Memasukan nilai data update terbaru
         

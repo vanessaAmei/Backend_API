@@ -1,90 +1,62 @@
 <?php
-defined('BASEPATH') OR exit('No direct script access allowed');
+use Restserver\Libraries\REST_Controller;
+class Login extends REST_Controller
+{
+    public function __construct(){
+        header('Access-Control-Allow-Origin: *');         
+        header("Access-Control-Allow-Methods: GET, OPTIONS, POST, DELETE");         
+        header("Access-Control-Allow-Headers: Content-Type, ContentLength, Accept-Encoding");         
+        parent::__construct();         
+        $this->load->model('LoginModel');         
+        $this->load->library('form_validation');     
+        $this->load->helper(['jwt', 'Authorization']);   
+    }   
 
-class Login extends CI_Controller {
+    public $rule = [  
+        [                     
+            'field' => 'password',                     
+            'label' => 'password',                     
+            'rules' => 'required'                 
+        ],                 
+        [                     
+            'field' => 'username',                     
+            'label' => 'username',                     
+            'rules' => 'required'                 
+        ]  
+    ];     
+    
+    public function Rules() { return $this->rule; }     
 
-    public function __construct()
-    {
-        parent::__construct();
-        //load model admin
-        $this->load->model('admin');
-    }
+    
+    public function index_post(){
+        $validation = $this->form_validation;         
+        $rule = $this->Rules();            
+        $validation->set_rules($rule);         
+        if (!$validation->run()) {             
+            return $this->response($this->form_validation->error_array());         
+        }        
+        $pegawai = new UserData();
+        $pegawai->password = $this->post('password');
+        $pegawai->username = $this->post('username');
+        // $pegawai->peran = $this->get('peran');
 
-    public function index()
-    {
-
-            if($this->admin->logged_id())
-            {
-                //jika memang session sudah terdaftar, maka redirect ke halaman dahsboard
-                // redirect('dashboard');
-                if($this->session->userdata('user_role') == "Owner"){
-                    $this->load->view("admin/dashboardOwner");
-                }else if($this->session->userdata('user_role') == "Kasir"){
-                    $this->load->view("admin/dashboardKasir");
-                }else{
-                    $this->load->view("admin/dashboardCS");
-                }
-
-            }else{
-
-                //jika session belum terdaftar
-
-                //set form validation
-                $this->form_validation->set_rules('username', 'Username', 'required');
-                $this->form_validation->set_rules('password', 'Password', 'required');
-
-                //set message form validation
-                $this->form_validation->set_message('required', '<div class="alert alert-danger" style="margin-top: 3px">
-                    <div class="header"><b><i class="fa fa-exclamation-circle"></i> {field}</b> harus diisi</div></div>');
-
-                //cek validasi
-                if ($this->form_validation->run() == TRUE) {
-
-                //get data dari FORM
-                $username = $this->input->post("username", TRUE);
-                // $password = md5($this->input->post('password', TRUE));
-                $password = $this->input->post("password", TRUE);
-
-                //checking data via model
-                $checking = $this->admin->check_login('pegawai', array('username' => $username), array('password' => $password));
-
-                //jika ditemukan, maka create session
-                if ($checking != FALSE) {
-                    foreach ($checking as $apps) {
-
-                        $session_data = array(
-                            'user_id'   => $apps->id_pegawai,
-                            'user_name' => $apps->username,
-                            'user_pass' => $apps->password,
-                            'user_role' => $apps->peran,
-                            'user_ket' => $apps->nama,
-                        );
-                        //set session userdata
-                        $this->session->set_userdata($session_data);
-
-                        // redirect('dashboard');
-                        if($this->session->userdata('user_role') == "Owner"){
-                            $this->load->view("admin/dashboardOwner");
-                        }else if($this->session->userdata('user_role') == "Kasir"){
-                            $this->load->view("admin/dashboardKasir");
-                        }else{
-                            $this->load->view("admin/dashboardCS");
-                        }
-
-                    }
-                }else{
-
-                    $data['error'] = '<div class="alert alert-danger" style="margin-top: 3px">
-                        <div class="header"><b><i class="fa fa-exclamation-circle"></i> ERROR</b> username atau password salah!</div></div>';
-                    $this->load->view('login', $data);
-                }
-
-            }else{
-
-                $this->load->view('login');
-            }
-
+        if($result= $this->LoginModel->verifyUser($pegawai)){
+           $token = AUTHORIZATION::generateToken(['ID'=> $result['id_pegawai'],'username'=> $result['username'],'peran'=> $result['peran']]);
+            $status = parent::HTTP_OK;
+            $response = ['status' => $status, 'token'=> $token, 'pegawai'=> $result];
+            
+            return $this->response($response, $status, $result);
         }
-
+        else
+        {
+            return $this->response('Gagal');
+        }
     }
+} 
+
+Class UserData{    
+    public $peran;
+    public $nama;
+    public $password;     
+    public $username; 
 }

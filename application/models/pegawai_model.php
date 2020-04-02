@@ -66,6 +66,16 @@ class pegawai_model extends CI_Model
         $this->db->select('*');
         $this->db->from('pegawai');
         $this->db->where('deleted_at IS NULL');
+        $this->db->where('peran !=', 'Owner');
+        return $this->db->get()->result_array();
+        // return $this->db->get()->result();
+
+    }
+
+    public function getCS() {
+        $this->db->select('*');
+        $this->db->from('pegawai');
+        $this->db->where('peran="customer service"');
         return $this->db->get()->result_array();
         // return $this->db->get()->result();
 
@@ -78,7 +88,7 @@ class pegawai_model extends CI_Model
         $this->alamat = $request->alamat;
         $this->no_telp = $request->no_telp;
         $this->username = $request->username;
-        $this->password = password_hash($request->password, PASSWORD_BCRYPT);
+        $this->password = $request->password;
         $this->created_at = date("Y-m-d H:i:s"); //Mengambil nilai date dari local sesuai format, jadi untuk format ini menggunakan Timestamp
         // $this->created_at = date("Y-m-d"); Yang ini menggunakan format Date
         if($this->db->insert($this->table, $this))
@@ -145,6 +155,14 @@ class pegawai_model extends CI_Model
         // login gagal
 		return false;
     }
+
+    public function change_pass($id, $new_pass)
+    {
+            $update_pass=$this->db->query("UPDATE pegawai SET password='$new_pass'  where id_pegawai='$id'");
+            if($update_pass){
+                return ['msg'=>'Berhasil Update Pegawai','error'=>false];
+            }
+	}
 
     public function isNotLogin(){
         return $this->session->userdata('user_logged') === null;

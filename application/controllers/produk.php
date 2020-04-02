@@ -17,9 +17,10 @@ Class Produk extends REST_Controller
 
     public function index_get() //Method GET untuk mengambil semua Data pada Database
     {
-        // return $this->returnData($this->db->get('produk')->result(), false);
+        
         $query = $this->produk_model->getAll();
         echo json_encode($query);
+       
     }
 
     public function index_post($id = null) //Method Post untuk menyimpan Data namun disini juga disamain untuk update, jadi tidak ada method Put
@@ -57,11 +58,6 @@ Class Produk extends REST_Controller
                 'label' => 'satuan',
                 'rules' => 'required'
             ],
-            [
-                'field' => 'deskripsi',
-                'label' => 'deskripsi',
-                'rules' => 'required'
-            ],
             );
         }
 
@@ -95,11 +91,6 @@ Class Produk extends REST_Controller
                 'label' => 'satuan',
                 'rules' => ''
             ],
-            [
-                'field' => 'deskripsi',
-                'label' => 'deskripsi',
-                'rules' => ''
-            ],
             );
         }
 
@@ -115,7 +106,6 @@ Class Produk extends REST_Controller
         $produk->minimal = $this->post('minimal');
         $produk->stok = $this->post('stok');
         $produk->satuan = $this->post('satuan');
-        $produk->deskripsi = $this->post('deskripsi');
         $produk->gambar = $this->post('gambar'); //Memasukkan Data dari form inputan
 
         if($id == null)
@@ -158,7 +148,6 @@ Class produkData
     public $stok;
     public $satuan;
     public $gambar;
-    public $deskripsi;
     public $create_at;
     public $updated_at;
     public $deleted_at;

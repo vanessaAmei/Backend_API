@@ -1,7 +1,7 @@
 <?php
 use Restserver \Libraries\REST_Controller;
 
-Class Tp_Detail extends REST_Controller
+Class Tl_Detail extends REST_Controller
 {
     public function __construct()
     {
@@ -11,19 +11,19 @@ Class Tp_Detail extends REST_Controller
         parent::__construct();
         // $this->load->model("user_model");
         // if($this->user_model->isNotLogin()) redirect(site_url('admin/login'));
-        $this->load->model('tp_detail_model'); //Akses Model data nya untuk Controller ini
+        $this->load->model('tl_detail_model'); //Akses Model data nya untuk Controller ini
         $this->load->library('form_validation');
     }
 
     public function index_get() //Method GET untuk mengambil semua Data pada Database
     {
-        $id = $this->get('id_tp');
+        $id = $this->get('id_tl');
 
         if ($id == '') {
-            $query = $this->tp_detail_model->getAll();
+            $query = $this->tl_detail_model->getAll();
             echo json_encode($query);
         }else{
-            $query = $this->tp_detail_model->getById($id);
+            $query = $this->tl_detail_model->getById($id);
             echo json_encode($query);
         } 
     }
@@ -31,19 +31,19 @@ Class Tp_Detail extends REST_Controller
     public function index_post($id = null) //Method Post untuk menyimpan Data namun disini juga disamain untuk update, jadi tidak ada method Put
     {
         $validation = $this->form_validation; //Load Form Validation
-        $rule = $this->tp_detail_model->rules(); //Mengambil Rules pada Model
+        $rule = $this->tl_detail_model->rules(); //Mengambil Rules pada Model
 
         if($id == null) //Jika ID Null yang berarti jika ingin create Data maka Rule nya ini
         {
             array_push($rule,[
-                'field' => 'id_tp',
-                'label' => 'id_tp',
+                'field' => 'id_tl',
+                'label' => 'id_tl',
                 'rules' => 'required'
             ],
     
             [
-                'field' => 'id_produk',
-                'label' => 'id_produk',
+                'field' => 'id_layanan',
+                'label' => 'id_layanan',
                 'rules' => 'required'
             ],
     
@@ -63,14 +63,14 @@ Class Tp_Detail extends REST_Controller
         else //Jika ID Not Null yang berarti jika ingin update Data maka Rule nya ini
         {
             array_push($rule, [
-                'field' => 'id_tp',
-                'label' => 'id_tp',
+                'field' => 'id_tl',
+                'label' => 'id_tl',
                 'rules' => 'required'
             ],
     
             [
-                'field' => 'id_produk',
-                'label' => 'id_produk',
+                'field' => 'id_layanan',
+                'label' => 'id_layanan',
                 'rules' => 'required'
             ],
     
@@ -87,26 +87,26 @@ Class Tp_Detail extends REST_Controller
             );
         }
 
-        $validation->set_rules($rule); //Form output untuk menunjukkan hasil rule
+        $validation->set_rules($rule); //Form outlut untuk menunjukkan hasil rule
         if (!$validation->run()) 
         {
             return $this->returnData($this->form_validation->error_array(), true);
         }
 
-        $tp = new tpData(); //Dibuatkan Entity untuk tempat menyimpan Data, Tidak wajib dilakukan 
-        $tp->id_tp = $this->post('id_tp');
-        $tp->id_produk = $this->post('id_produk');
-        $tp->jumlah = $this->post('jumlah');
-        $tp->total = $this->post('total');
+        $tl = new tlData(); //Dibuatkan Entity untuk tempat menyimpan Data, Tidak wajib dilakukan 
+        $tl->id_tl = $this->post('id_tl');
+        $tl->id_layanan = $this->post('id_layanan');
+        $tl->jumlah = $this->post('jumlah');
+        $tl->total = $this->post('total');
          //Memasukkan Data dari form inputan
 
         if($id == null)
         {
-            $response = $this->tp_detail_model->store($tp); //Mengakses Fugsi Store dari Model, ini dilakukan jika ID null yang berarti create data
+            $response = $this->tl_detail_model->store($tl); //Mengakses Fugsi Store dari Model, ini dilakukan jika ID null yang berarti create data
         }
         else
         {
-            $response = $this->tp_detail_model->update($tp,$id); //Mengakses Fugsi Update dari Model, ini dilakukan jika ID Not null yang berarti update data
+            $response = $this->tl_detail_model->update($tl,$id); //Mengakses Fugsi Update dari Model, ini dilakukan jika ID Not null yang berarti update data
         }
         return $this->returnData($response['msg'], $response['error']);
     }
@@ -116,10 +116,10 @@ Class Tp_Detail extends REST_Controller
         //header("Access-Control-Allow-Methods: GET, OPTIONS, POST, DELETE");
         if($id == null)
         {
-            return $this->returnData('ID tp Tidak Ditemukan', true); //Error Exception jika ID nya tidak ditemukan
+            return $this->returnData('ID tl Tidak Ditemukan', true); //Error Exception jika ID nya tidak ditemukan
         }
 
-        $response = $this->tp_detail_model->destroy($id); //Mengakses Fugsi Delete dari Model, melakukan Soft Delete
+        $response = $this->tl_detail_model->destroy($id); //Mengakses Fugsi Delete dari Model, melakukan Soft Delete
         return $this->returnData($response['msg'], $response['error']);
     }
     
@@ -132,10 +132,10 @@ Class Tp_Detail extends REST_Controller
 }
 
 //Class Entity Untuk Data
-Class tpData
+Class tlData
 {
-    public $id_tp;
-    public $id_produk;
+    public $id_tl;
+    public $id_layanan;
     public $jumlah;
     public $total;
 }

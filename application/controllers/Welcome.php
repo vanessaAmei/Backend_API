@@ -69,21 +69,21 @@ class Welcome extends CI_Controller {
 			$msg = 'success';
 			
 	        $data_user  = $validate_user->row_array();
-			$username  = $data_user['USERNAME'];
-			$id_pegawai = $data_user['ID_PEGAWAI'];
-			$nama = $data_user['NAMA'];
-			$peran = $data_user['PERAN'];
+			$username  = $data_user['username'];
+			$id_pegawai = $data_user['id_pegawai'];
+			$nama = $data_user['nama'];
+			$peran = $data_user['peran'];
 
 	        $validate_user_role = $this->home_model->validate_user_role($peran);
 
 	        $data_user_role = $validate_user_role->row_array();
-			$user_role = $data_user_role['PERAN'];
+			$user_role = $data_user_role['peran'];
 
 	        $sesdata = array(
-				'ID_PEGAWAI' => $id_pegawai,
-				'USERNAME'  => $username,
-				'NAMA' => $nama,
-	            'PERAN'     => $peran,
+				'id_pegawai' => $id_pegawai,
+				'username'  => $username,
+				'nama' => $nama,
+	            'peran'     => $peran,
 	            'logged_in' => TRUE
 			);
 			
@@ -109,6 +109,6 @@ class Welcome extends CI_Controller {
 
 	public function index()
 	{
-		$this->load->view('admin/dashboard');
+		$this->load->view('login');
 	}
 }
