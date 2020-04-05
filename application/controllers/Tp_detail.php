@@ -28,6 +28,14 @@ Class Tp_Detail extends REST_Controller
         } 
     }
 
+    public function searchKode_get()
+    {
+        $kode = $this->get('kode');
+        $kontak = $this->tp_detail_model->getTp($kode);
+        echo json_encode($kontak);
+    }
+
+
     public function index_post($id = null) //Method Post untuk menyimpan Data namun disini juga disamain untuk update, jadi tidak ada method Put
     {
         $validation = $this->form_validation; //Load Form Validation

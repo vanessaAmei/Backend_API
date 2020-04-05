@@ -97,6 +97,13 @@ class tp_detail_model extends CI_Model
         return ['msg' => 'Gagal', 'error'=>true];
     }
 
+    public function getTp($kode){
+
+        $query = "SELECT id_tp FROM transaksi_produk WHERE kode = '$kode'";
+        $result = $this->db->query($query);
+        return $result->result();   
+    }
+
     public function getById($id)
     {
         $this->db->select('a.id_detail_tp, c.kode as "kode", a.id_tp, b.nama as "produk", a.jumlah , a.total');
