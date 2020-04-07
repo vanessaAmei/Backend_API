@@ -31,6 +31,11 @@ Class Transaksi_Produk extends REST_Controller
         }
     }
 
+    public function dataBayar_get(){
+        $query = $this->tp_model->getBayar();
+        echo json_encode($query);
+    }
+
     public function codelength_get()
     {
       $kode = $this->get('kode');

@@ -99,7 +99,11 @@ class hewan_model extends CI_Model
 
     public function getById($id)
     {
-        return $this->db->get_where($this->_table, ["id_hewan" => $id])->row();
+        $this->db->select('a.nama as "nama", a.no_telp as "no_telp"');
+        $this->db->from('customer a'); 
+        $this->db->join('hewan b', 'id_customer');
+        $this->db->where('id_hewan',$id);
+        return $this->db->get()->result_array();
     }
 
     // public function destroy($id)  //Fungsi Untuk Delete

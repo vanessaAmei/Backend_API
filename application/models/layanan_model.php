@@ -43,7 +43,7 @@ class layanan_model extends CI_Model
         // $this->db->select('*');
         // $this->db->from('layanan');
         // $this->db->where('deleted_at IS NULL');
-        $this->db->select('a.id_layanan as "id_layanan", concat(a.nama," ", b.nama," ", c.nama) as "namaLayanan", a.harga as "harga"');
+        $this->db->select('a.id_layanan as "id_layanan", a.nama as "layanan", b.nama as "jenis", c.nama as "ukuran" , a.harga as "harga"');
         $this->db->from('layanan a');
         $this->db->join('jenis_hewan b', 'id_jenis_hewan');
         $this->db->join('ukuran_hewan c', 'id_ukuran_hewan');
@@ -95,7 +95,10 @@ class layanan_model extends CI_Model
 
     public function getById($id)
     {
-        return $this->db->get_where($this->_table, ["id_layanan" => $id])->row();
+        $this->db->select('*');
+        $this->db->from('layanan'); 
+        $this->db->where('id_layanan',$id);
+        return $this->db->get()->result_array();
     }
 
     // public function destroy($id)  //Fungsi Untuk Delete

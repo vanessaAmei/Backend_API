@@ -15,8 +15,18 @@ Class Layanan extends REST_Controller
     public function index_get() //Method GET untuk mengambil semua Data pada Database
     {
         // return $this->returnData($this->db->get('layanan')->result(), false);
-        $query = $this->layanan_model->getAll();
-        echo json_encode($query);
+        // $query = $this->layanan_model->getAll();
+        // echo json_encode($query);
+
+        $id = $this->get('id_layanan');
+
+        if ($id == '') {
+            $query = $this->layanan_model->getAll();
+            echo json_encode($query);
+        }else{
+            $query = $this->layanan_model->getById($id);
+            echo json_encode($query);
+        } 
     }
 
     public function index_post($id = null) //Method Post untuk menyimpan Data namun disini juga disamain untuk update, jadi tidak ada method Put

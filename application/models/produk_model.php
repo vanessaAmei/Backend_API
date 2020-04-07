@@ -77,14 +77,17 @@ class produk_model extends CI_Model
     public function update($request,$id) { //Fungsi untuk update data
 
         $this->updated_at = date("Y-m-d H:i:s"); 
-        $updateData = ['nama' => $request->nama, 
+        $this->nama = $request->nama;
+        $this->gambar = $this->_uploadImage();
+        $updateData = ['nama' => $this->nama, 
                         'harga' => $request->harga, 
                         'stok' => $request->stok, 
                         'minimal' => $request->minimal,
                         'satuan' => $request->satuan, 
-                        'gambar' => $this->_uploadImage(),
+                        'gambar' => $this->gambar,
                         'updated_at' => $this->updated_at]; //Memasukan nilai data update terbaru
         
+                
         // if(!empty($_FILES['gambar']['nama'])){
         //     $this->gambar = $this->_uploadImage();
         // }else{

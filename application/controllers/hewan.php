@@ -14,9 +14,18 @@ Class Hewan extends REST_Controller
 
     public function index_get() //Method GET untuk mengambil semua Data pada Database
     {
-        // return $this->returnData($this->db->get('hewan')->result(), false);
-        $query = $this->hewan_model->getAll();
-        echo json_encode($query);
+        // // return $this->returnData($this->db->get('hewan')->result(), false);
+        // $query = $this->hewan_model->getAll();
+        // echo json_encode($query);
+        $id = $this->get('id_hewan');
+
+        if ($id == '') {
+            $query = $this->hewan_model->getAll();
+            echo json_encode($query);
+        }else{
+            $query = $this->hewan_model->getById($id);
+            echo json_encode($query);
+        } 
     }
 
     public function index_post($id = null) //Method Post untuk menyimpan Data namun disini juga disamain untuk update, jadi tidak ada method Put

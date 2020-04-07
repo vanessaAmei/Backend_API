@@ -7,7 +7,7 @@ class Login extends REST_Controller
         header("Access-Control-Allow-Methods: GET, OPTIONS, POST, DELETE");         
         header("Access-Control-Allow-Headers: Content-Type, ContentLength, Accept-Encoding");         
         parent::__construct();         
-        $this->load->model('LoginModel');         
+        $this->load->model('login_model');         
         $this->load->library('form_validation');     
         $this->load->helper(['jwt', 'Authorization']);   
     }   
@@ -40,7 +40,7 @@ class Login extends REST_Controller
         $pegawai->username = $this->post('username');
         // $pegawai->peran = $this->get('peran');
 
-        if($result= $this->LoginModel->verifyUser($pegawai)){
+        if($result= $this->login_model->verifyUser($pegawai)){
            $token = AUTHORIZATION::generateToken(['ID'=> $result['id_pegawai'],'username'=> $result['username'],'peran'=> $result['peran']]);
             $status = parent::HTTP_OK;
             $response = ['status' => $status, 'token'=> $token, 'pegawai'=> $result];

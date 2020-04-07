@@ -67,15 +67,27 @@ class tp_model extends CI_Model
     public function Rules() { return $this->rule; } //Fungsi untuk return nilai rule dimana untuk di cek
 
     public function getAll() {
+            $this->db->select('a.id_tp as "id_tp", a.id_hewan as "id_hewan", b.nama as "hewan", a.id_pegawai_k as "id_pegawai_k", c.nama as "Kasir", a.id_pegawai_cs as "id_pegawai_cs", d.nama as "customer_service",
+             a.kode as "kode", a.tanggal as "tanggal", 
+             a.sub_total as "sub_total", a.total_harga as "total_harga", a.status as "status"');
+             $this->db->from('transaksi_produk a');
+             $this->db->join('hewan b', 'id_hewan');
+             $this->db->join('pegawai c', 'a.id_pegawai_cs = c.id_pegawai');
+             $this->db->join('pegawai d', 'a.id_pegawai_cs = d.id_pegawai');
+             $this->db->where('a.status =', 'Penjualan');
+             return $query = $this->db->get()->result_array(); 
+    }
 
-        $query = "SELECT a.id_tp, a.id_hewan as 'id_hewan', b.nama as 'hewan', a.id_pegawai_k as 'id_pegawai_k', c.nama as 'Kasir', a.id_pegawai_cs as 'id_pegawai_cs', d.nama as 'customer_service',
-        a.kode as 'kode', a.tanggal as 'tanggal', 
-        a.sub_total as 'sub_total', a.total_harga as 'total_harga'
-        FROM transaksi_produk a 
-        JOIN hewan b ON b.id_hewan=a.id_hewan JOIN pegawai c ON c.id_pegawai=a.id_pegawai_k JOIN pegawai d ON d.id_pegawai=a.id_pegawai_cs WHERE status != 'selesai' && status!='batal' && status!='pembayaran'";
-
-        $result = $this->db->query($query);
-        return $result->result();
+    public function getBayar(){
+            $this->db->select('a.id_tp as "id_tp", a.id_hewan as "id_hewan", b.nama as "hewan", a.id_pegawai_k as "id_pegawai_k", c.nama as "Kasir", a.id_pegawai_cs as "id_pegawai_cs", d.nama as "customer_service",
+             a.kode as "kode", a.tanggal as "tanggal", 
+             a.sub_total as "sub_total", a.total_harga as "total_harga", a.status as "status"');
+             $this->db->from('transaksi_produk a');
+             $this->db->join('hewan b', 'id_hewan');
+             $this->db->join('pegawai c', 'a.id_pegawai_cs = c.id_pegawai');
+             $this->db->join('pegawai d', 'a.id_pegawai_cs = d.id_pegawai');
+             $this->db->where('a.status =', 'Pembayaran');
+             return $query = $this->db->get()->result_array(); 
     }
 
     public function getByIndex()
