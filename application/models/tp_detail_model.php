@@ -40,7 +40,7 @@ class tp_detail_model extends CI_Model
 
     public function getAll() {
 
-        $this->db->select('a.id_detail_tp, c.kode as "kode", a.id_tp, b.nama as "produk", a.jumlah , a.total');
+        $this->db->select('a.id_detail_tp, c.kode as "kode", a.id_tp, b.harga as "harga", a.id_produk as "id_produk", b.nama as "produk", a.jumlah , a.total');
         $this->db->from('detail_tp a'); 
         $this->db->join('produk b', 'id_produk');
         $this->db->join('transaksi_produk c', 'id_tp');
@@ -106,7 +106,7 @@ class tp_detail_model extends CI_Model
 
     public function getById($id)
     {
-        $this->db->select('a.id_detail_tp, c.kode as "kode", a.id_tp, b.nama as "produk", a.jumlah , a.total');
+        $this->db->select('a.id_detail_tp, c.kode as "kode", a.id_tp, b.harga as "harga", a.id_produk as "id_produk", b.nama as "produk", a.jumlah , a.total');
         $this->db->from('detail_tp a'); 
         $this->db->join('produk b', 'id_produk');
         $this->db->join('transaksi_produk c', 'id_tp');

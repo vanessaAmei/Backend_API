@@ -111,6 +111,14 @@ class tp_model extends CI_Model
         return $this->db->get()->result_array(); 
     }
 
+    public function kurangStok($produk, $jumlah)
+    {
+            $update_stok=$this->db->query("UPDATE produk SET stok=(stok-'$jumlah') WHERE nama='$produk'");
+            if($update_stok){
+                return ['msg'=>'Berhasil Mengurangi Stok','error'=>false];
+            }
+	}
+
     public function store($request) {   //Fungsi untuk menyimpan data
         $this->id_hewan = $request->id_hewan;   //Gunakan $Request untuk mengambil data yang diinputkan oleh user
         $this->id_pegawai_k = $request->id_pegawai_k;
@@ -143,12 +151,6 @@ class tp_model extends CI_Model
                         'status' => $request->status,
                         'updated_by' => $request->updated_by,
                         'updated_at' => $this->updated_at]; //Memasukan nilai data update terbaru
-        
-        // if(!empty($_FILES['gambar']['nama'])){
-        //     $this->gambar = $this->_uploadImage();
-        // }else{
-        //     $this->gambar = "default.jpg";
-        // }
         
         if($this->db->where('id_tp',$id)->update($this->table, $updateData)) //Query Update dimana data nya yaitu $updateData
         {

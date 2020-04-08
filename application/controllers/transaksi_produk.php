@@ -36,6 +36,17 @@ Class Transaksi_Produk extends REST_Controller
         echo json_encode($query);
     }
 
+    public function kurangStok_post()
+    {
+        $jumlah = $this->post('jumlah');
+        $produk = $this->post('nama');
+
+        $kurang = $this->tp_model->kurangStok($produk, $jumlah);
+        if($kurang) {
+             $this->response($kurang, 200);
+        }
+    }
+
     public function codelength_get()
     {
       $kode = $this->get('kode');
