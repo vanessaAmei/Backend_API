@@ -67,16 +67,53 @@ class tl_model extends CI_Model
     public function Rules() { return $this->rule; } //Fungsi untuk return nilai rule dimana untuk di cek
 
     public function getAll() {
-
-        $query = "SELECT a.id_tl, a.id_hewan as 'id_hewan', b.nama as 'hewan', a.id_pegawai_k as 'id_pegawai_k', c.nama as 'Kasir', a.id_pegawai_cs as 'id_pegawai_cs', d.nama as 'customer_service',
-        a.kode as 'kode', a.tanggal as 'tanggal', 
-        a.sub_total as 'sub_total', a.total as 'total'
-        FROM transaksi_layanan a 
-        JOIN hewan b ON b.id_hewan=a.id_hewan JOIN pegawai c ON c.id_pegawai=a.id_pegawai_k JOIN pegawai d ON d.id_pegawai=a.id_pegawai_cs WHERE status != 'selesai' && status!='batal' && status!='pembayaran'";
-
-        $result = $this->db->query($query);
-        return $result->result();
+        $this->db->select('a.id_tl as "id_tl", a.id_hewan as "id_hewan", b.id_ukuran_hewan as "id_ukuran_hewan", b.nama as "hewan", a.id_pegawai_k as "id_pegawai_k", c.nama as "Kasir", a.id_pegawai_cs as "id_pegawai_cs", d.nama as "customer_service",
+             a.kode as "kode", a.tanggal as "tanggal", 
+             a.sub_total as "sub_total", a.total as "total", a.status as "status"');
+             $this->db->from('transaksi_layanan a');
+             $this->db->join('hewan b', 'id_hewan');
+             $this->db->join('pegawai c', 'a.id_pegawai_cs = c.id_pegawai');
+             $this->db->join('pegawai d', 'a.id_pegawai_cs = d.id_pegawai');
+             $this->db->where('a.status =', 'Proses');
+             return $query = $this->db->get()->result_array();
     }
+
+    public function getBatal() {
+        $this->db->select('a.id_tl as "id_tl", a.id_hewan as "id_hewan", b.nama as "hewan", b.id_ukuran_hewan as "id_ukuran_hewan", a.id_pegawai_k as "id_pegawai_k", c.nama as "Kasir", a.id_pegawai_cs as "id_pegawai_cs", d.nama as "customer_service",
+             a.kode as "kode", a.tanggal as "tanggal", 
+             a.sub_total as "sub_total", a.total as "total", a.status as "status"');
+             $this->db->from('transaksi_layanan a');
+             $this->db->join('hewan b', 'id_hewan');
+             $this->db->join('pegawai c', 'a.id_pegawai_cs = c.id_pegawai');
+             $this->db->join('pegawai d', 'a.id_pegawai_cs = d.id_pegawai');
+             $this->db->where('a.status =', 'Batal');
+             return $query = $this->db->get()->result_array();
+    }
+
+    public function getSelesai() {
+        $this->db->select('a.id_tl as "id_tl", a.id_hewan as "id_hewan", b.nama as "hewan", b.id_ukuran_hewan as "id_ukuran_hewan", a.id_pegawai_k as "id_pegawai_k", c.nama as "Kasir", a.id_pegawai_cs as "id_pegawai_cs", d.nama as "customer_service",
+             a.kode as "kode", a.tanggal as "tanggal", 
+             a.sub_total as "sub_total", a.total as "total", a.status as "status"');
+             $this->db->from('transaksi_layanan a');
+             $this->db->join('hewan b', 'id_hewan');
+             $this->db->join('pegawai c', 'a.id_pegawai_cs = c.id_pegawai');
+             $this->db->join('pegawai d', 'a.id_pegawai_cs = d.id_pegawai');
+             $this->db->where('a.status =', 'Selesai');
+             return $query = $this->db->get()->result_array();
+    }
+
+    public function getBayar() {
+        $this->db->select('a.id_tl as "id_tl", a.id_hewan as "id_hewan", b.id_ukuran_hewan as "id_ukuran_hewan", b.nama as "hewan", a.id_pegawai_k as "id_pegawai_k", c.nama as "Kasir", a.id_pegawai_cs as "id_pegawai_cs", d.nama as "customer_service",
+        a.kode as "kode", a.tanggal as "tanggal", 
+        a.sub_total as "sub_total", a.total as "total", a.status as "status"');
+        $this->db->from('transaksi_layanan a');
+        $this->db->join('hewan b', 'id_hewan');
+        $this->db->join('pegawai c', 'a.id_pegawai_cs = c.id_pegawai');
+        $this->db->join('pegawai d', 'a.id_pegawai_cs = d.id_pegawai');
+        $this->db->where('a.status =', 'Pembayaran');
+        return $query = $this->db->get()->result_array();
+    }
+
 
     public function getByIndex()
     {
@@ -89,6 +126,53 @@ class tl_model extends CI_Model
 
         $result = $this->db->query($query);
         return $result->result();
+    }
+
+    public function change_status($id, $new_status)
+    {
+            $update_pass=$this->db->query("UPDATE transaksi_layanan SET status='$new_status'  where id_tl='$id'");
+            if($update_pass){
+                return ['msg'=>'Berhasil Update Status','error'=>false];
+            }
+    }
+
+    public function number($id)
+    {
+        $query = "SELECT no_telp FROM customer WHERE id_customer = (SELECT id_customer from hewan WHERE id_hewan=$id)";
+        $result = $this->db->query($query);
+        return $result->result(); 
+    }
+
+    public function bayarUpdate($id, $new_status, $new_total)
+    {
+            $update_pass=$this->db->query("UPDATE transaksi_layanan SET status='$new_status', total='$new_total' WHERE id_tl='$id'");
+            if($update_pass){
+                return ['msg'=>'Berhasil Selesai Pembayaran','error'=>false];
+            }
+    }
+    
+    public function change_hewan($id, $new_hewan)
+    {
+            $update_pass=$this->db->query("UPDATE transaksi_layanan SET id_hewan='$new_hewan'  where id_tl='$id'");
+            if($update_pass){
+                return ['msg'=>'Berhasil Update Hewan','error'=>false];
+            }
+	}
+
+    public function update_subtotal($id, $new_jumlah)
+    {
+            $update=$this->db->query("UPDATE transaksi_layanan SET sub_total='$new_jumlah'  where id_tl='$id'");
+            if($update){
+                return ['msg'=>'Berhasil Update Sub Total','error'=>false];
+            }
+    }
+    
+    public function getCodeLength($kode)
+    {
+        $this->db->select('kode');
+        $this->db->from('transaksi_layanan');
+        $this->db->like('kode', $kode , 'after');
+        return $this->db->get()->result_array(); 
     }
 
     public function store($request) {   //Fungsi untuk menyimpan data
@@ -123,12 +207,6 @@ class tl_model extends CI_Model
                         'status' => $request->status,
                         'updated_by' => $request->updated_by,
                         'updated_at' => $this->updated_at]; //Memasukan nilai data update terbaru
-        
-        // if(!empty($_FILES['gambar']['nama'])){
-        //     $this->gambar = $this->_uploadImage();
-        // }else{
-        //     $this->gambar = "default.jpg";
-        // }
         
         if($this->db->where('id_tl',$id)->update($this->table, $updateData)) //Query Update dimana data nya yaitu $updateData
         {

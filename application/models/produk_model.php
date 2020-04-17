@@ -53,7 +53,6 @@ class produk_model extends CI_Model
         $this->db->from('produk');
         $this->db->where('deleted_at IS NULL');
         return $this->db->get()->result_array();
-        // return $this->db->get()->result();
 
     }
 
@@ -141,13 +140,7 @@ class produk_model extends CI_Model
             return $this->upload->data("file_name");
         }
 
-        // print_r($this->upload->display_error());
-
         return "default.jpg";
-
-        // $error = $this->upload->display_errors();
-        // echo $error;
-    
     }
 
     private function _deleteImage($id)

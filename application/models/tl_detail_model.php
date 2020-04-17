@@ -40,17 +40,40 @@ class tl_detail_model extends CI_Model
 
     public function getAll() {
 
-        $this->db->select('a.id_detail_tl, c.kode as "kode", a.id_tl, b.nama as "layanan", a.jumlah , a.total');
+        $this->db->select('a.id_detail_tl, c.kode as "kode", a.id_tl, b.id_layanan as "id_layanan", d.id_ukuran_hewan as "id_ukuran_hewan", d.nama as "ukuran", b.nama as "layanan", b.harga as "harga", a.jumlah , a.total');
         $this->db->from('detail_tl a'); 
         $this->db->join('layanan b', 'id_layanan');
         $this->db->join('transaksi_layanan c', 'id_tl');
+        $this->db->join('ukuran_hewan d', 'id_ukuran_hewan');
         return $this->db->get()->result_array();
-
-        // $this->db->select('*');
-        // $this->db->from('detail_tl');
-        // return $this->db->get()->result_array();
-
     }
+
+    public function getTl($kode){
+        $query = "SELECT id_tl FROM transaksi_layanan WHERE kode = '$kode'";
+        $result = $this->db->query($query);
+        return $result->result();   
+    }
+
+    public function getKode($id,$layanan){
+        $query = "SELECT id_detail_tl FROM detail_tl WHERE id_tl = $id AND id_layanan = $layanan";
+        $result = $this->db->query($query);
+        return $result->result();   
+    }
+
+    public function change_jumlah($id, $new_jumlah, $harga)
+    {
+            $update_pass=$this->db->query("UPDATE detail_tl SET jumlah='$new_jumlah', total=($harga*$new_jumlah)  where id_detail_tl='$id'");
+            if($update_pass){
+                return ['msg'=>'Berhasil Update Jumlah','error'=>false];
+            }
+    }
+    
+    public function search_layanan($ukuran, $id){
+        $query = "SELECT a.id_layanan as 'id_layanan', a.nama as 'layanan', c.nama as 'ukuran' , a.harga as 'harga' FROM layanan as a JOIN ukuran_hewan as c ON a.id_ukuran_hewan=c.id_ukuran_hewan WHERE a.id_ukuran_hewan=$ukuran AND a.deleted_at IS NULL AND a.id_layanan NOT IN (SELECT b.id_layanan from detail_tl as b WHERE b.id_tl=$id)";
+        $result = $this->db->query($query);
+        return $result->result(); 
+    }
+    
 
     public function store($request) {   //Fungsi untuk menyimpan data
         $this->id_tl = $request->id_tl;   //Gunakan $Request untuk mengambil data yang diinputkan oleh user
@@ -99,10 +122,11 @@ class tl_detail_model extends CI_Model
 
     public function getById($id)
     {
-        $this->db->select('a.id_detail_tl, c.kode as "kode", a.id_tl, b.nama as "layanan", a.jumlah , a.total');
+        $this->db->select('a.id_detail_tl, c.kode as "kode", a.id_tl, b.id_layanan as "id_layanan",d.id_ukuran_hewan as "id_ukuran_hewan",d.nama as "ukuran",b.nama as "layanan", b.harga as "harga", a.jumlah , a.total');
         $this->db->from('detail_tl a'); 
         $this->db->join('layanan b', 'id_layanan');
         $this->db->join('transaksi_layanan c', 'id_tl');
+        $this->db->join('ukuran_hewan d', 'id_ukuran_hewan');
         $this->db->where('id_tl',$id);
         return $this->db->get()->result_array();
     }

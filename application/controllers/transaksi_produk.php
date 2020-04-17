@@ -36,6 +36,16 @@ Class Transaksi_Produk extends REST_Controller
         echo json_encode($query);
     }
 
+    public function dataBatal_get(){
+        $query = $this->tp_model->getBatal();
+        echo json_encode($query);
+    }
+
+    public function dataSelesai_get(){
+        $query = $this->tp_model->getSelesai();
+        echo json_encode($query);
+    }
+
     public function kurangStok_post()
     {
         $jumlah = $this->post('jumlah');
@@ -47,6 +57,18 @@ Class Transaksi_Produk extends REST_Controller
         }
     }
 
+    public function pulihkan_post()
+    {
+        $id = $this->post('id_tp');
+        $status = $this->post('status');
+
+        $kurang = $this->tp_model->pulihkan($id, $status);
+        if($kurang) {
+             $this->response($kurang, 200);
+        }
+    }
+
+    
     public function codelength_get()
     {
       $kode = $this->get('kode');

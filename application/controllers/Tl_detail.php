@@ -28,6 +28,43 @@ Class Tl_Detail extends REST_Controller
         } 
     }
 
+    public function searchKode_get()
+    {
+        $kode = $this->get('kode');
+        $search = $this->tl_detail_model->getTl($kode);
+        echo json_encode($search);
+    }
+
+    public function getLayanan_get(){
+        $ukuran = $this->get('id_ukuran_hewan');
+        $id = $this->get('id_tl');
+
+        $search = $this->tl_detail_model->search_layanan($ukuran, $id);
+        if($search) {
+             $this->response($search, 200);
+        }
+    }
+
+    public function changeJumlah_post()
+    {
+        $id = $this->post('id_detail_tl');
+        $jumlah = $this->post('jumlah');
+        $harga = $this->post('harga');
+
+        $change = $this->tl_detail_model->change_jumlah($id, $jumlah, $harga);
+        if($change) {
+             $this->response($change, 200);
+        }
+    }
+
+    public function searchDetail_get()
+    {
+        $id = $this->get('id_tl');
+        $layanan = $this->get('id_layanan');
+        $search = $this->tl_detail_model->getKode($id, $layanan);
+        echo json_encode($search);
+    }
+
     public function index_post($id = null) //Method Post untuk menyimpan Data namun disini juga disamain untuk update, jadi tidak ada method Put
     {
         $validation = $this->form_validation; //Load Form Validation

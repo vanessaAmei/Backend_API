@@ -14,10 +14,6 @@ Class Layanan extends REST_Controller
 
     public function index_get() //Method GET untuk mengambil semua Data pada Database
     {
-        // return $this->returnData($this->db->get('layanan')->result(), false);
-        // $query = $this->layanan_model->getAll();
-        // echo json_encode($query);
-
         $id = $this->get('id_layanan');
 
         if ($id == '') {
@@ -27,6 +23,16 @@ Class Layanan extends REST_Controller
             $query = $this->layanan_model->getById($id);
             echo json_encode($query);
         } 
+    }
+
+    public function layananUkuran_get()
+    {
+      $id_ukuran_hewan = $this->get('id_ukuran_hewan');
+
+      $layanan = $this->layanan_model->getLayanan($id_ukuran_hewan);
+      if($layanan) {
+        $this->response($layanan, 200);
+      }
     }
 
     public function index_post($id = null) //Method Post untuk menyimpan Data namun disini juga disamain untuk update, jadi tidak ada method Put
@@ -46,12 +52,6 @@ Class Layanan extends REST_Controller
                 'label' => 'harga',
                 'rules' => 'required'
             ],
-            [
-                'field' => 'id_jenis_hewan',
-                'label' => 'id_jenis_hewan',
-                'rules' => 'required'
-            ],
-    
             [
                 'field' => 'id_ukuran_hewan',
                 'label' => 'id_ukuran_hewan',
@@ -73,12 +73,6 @@ Class Layanan extends REST_Controller
                 'rules' => 'required'
             ],
             [
-                'field' => 'id_jenis_hewan',
-                'label' => 'id_jenis_hewan',
-                'rules' => 'required'
-            ],
-    
-            [
                 'field' => 'id_ukuran_hewan',
                 'label' => 'id_ukuran_hewan',
                 'rules' => 'required'
@@ -96,7 +90,6 @@ Class Layanan extends REST_Controller
         $layanan->nama = $this->post('nama');//Memasukkan Data dari form inputan
         $layanan->harga = $this->post('harga');
         $layanan->id_ukuran_hewan = $this->post('id_ukuran_hewan');
-        $layanan->id_jenis_hewan = $this->post('id_jenis_hewan');
 
         if($id == null)
         {
@@ -135,7 +128,6 @@ Class layananData
     public $nama;
     public $harga;
     public $id_ukuran_hewan;
-    public $id_jenis_hewan;
     public $created_at;
     public $updated_at;
     public $deleted_at; 

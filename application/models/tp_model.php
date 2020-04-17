@@ -90,6 +90,30 @@ class tp_model extends CI_Model
              return $query = $this->db->get()->result_array(); 
     }
 
+    public function getBatal(){
+        $this->db->select('a.id_tp as "id_tp", a.id_hewan as "id_hewan", b.nama as "hewan", a.id_pegawai_k as "id_pegawai_k", c.nama as "Kasir", a.id_pegawai_cs as "id_pegawai_cs", d.nama as "customer_service",
+         a.kode as "kode", a.tanggal as "tanggal", 
+         a.sub_total as "sub_total", a.total_harga as "total_harga", a.status as "status"');
+         $this->db->from('transaksi_produk a');
+         $this->db->join('hewan b', 'id_hewan');
+         $this->db->join('pegawai c', 'a.id_pegawai_cs = c.id_pegawai');
+         $this->db->join('pegawai d', 'a.id_pegawai_cs = d.id_pegawai');
+         $this->db->where('a.status =', 'Batal');
+         return $query = $this->db->get()->result_array(); 
+    }
+
+    public function getSelesai(){
+        $this->db->select('a.id_tp as "id_tp", a.id_hewan as "id_hewan", b.nama as "hewan", a.id_pegawai_k as "id_pegawai_k", c.nama as "Kasir", a.id_pegawai_cs as "id_pegawai_cs", d.nama as "customer_service",
+         a.kode as "kode", a.tanggal as "tanggal", 
+         a.sub_total as "sub_total", a.total_harga as "total_harga", a.status as "status"');
+         $this->db->from('transaksi_produk a');
+         $this->db->join('hewan b', 'id_hewan');
+         $this->db->join('pegawai c', 'a.id_pegawai_cs = c.id_pegawai');
+         $this->db->join('pegawai d', 'a.id_pegawai_cs = d.id_pegawai');
+         $this->db->where('a.status =', 'Selesai');
+         return $query = $this->db->get()->result_array(); 
+    }
+
     public function getByIndex()
     {
         // return $this->db->get_where($this->_table, ["id_tp" => $id])->row();
@@ -116,6 +140,14 @@ class tp_model extends CI_Model
             $update_stok=$this->db->query("UPDATE produk SET stok=(stok-'$jumlah') WHERE nama='$produk'");
             if($update_stok){
                 return ['msg'=>'Berhasil Mengurangi Stok','error'=>false];
+            }
+    }
+    
+    public function pulihkan($id, $status)
+    {
+            $update=$this->db->query("UPDATE transaksi_produk SET status='$status' WHERE id_tp='$id'");
+            if($update){
+                return ['msg'=>'Berhasil Memulihkan Transaksi','error'=>false];
             }
 	}
 

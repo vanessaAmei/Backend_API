@@ -9,8 +9,6 @@ Class Transaksi_Layanan extends REST_Controller
         header("Access-Control-Allow-Methods: GET, OPTIONS, POST, DELETE");
         header("Access-Control-Allow-Headers: Content-Type, ContentLength, Accept-Encoding");
         parent::__construct();
-        // $this->load->model("user_model");
-        // if($this->user_model->isNotLogin()) redirect(site_url('admin/login'));
         $this->load->model('tl_model'); //Akses Model data nya untuk Controller ini
         $this->load->library('form_validation');
     }
@@ -28,10 +26,92 @@ Class Transaksi_Layanan extends REST_Controller
         }else{
             $query = $this->tl_model->getByIndex();
             echo json_encode($query);
+        }        
+    }
+
+    public function dataBayar_get(){
+        $query = $this->tl_model->getBayar();
+        echo json_encode($query);
+    }
+
+    public function number_get(){
+        $id_hewan = $this->get('id_hewan');
+
+        $change = $this->tl_model->number($id_hewan);
+        if($change) {
+             $this->response($change, 200);
         }
+    }
 
+    public function dataBatal_get(){
+        $query = $this->tl_model->getBatal();
+        echo json_encode($query);
+    }
 
-        
+    public function dataSelesai_get(){
+        $query = $this->tl_model->getSelesai();
+        echo json_encode($query);
+    }
+
+    // public function dataSelesai_get(){
+    //     $query = $this->tl_model->getSelesai();
+    //     echo json_encode($query);
+    // }
+
+    public function updateHewan_post()
+    {       
+        $id = $this->post('id_tl');
+        $id_hewan = $this->post('id_hewan');
+
+        $change = $this->tl_model->change_hewan($id, $id_hewan);
+        if($change) {
+             $this->response($change, 200);
+        }
+    }
+
+    public function changeStatus_post()
+    {
+        $id = $this->post('id_tl');
+        $status = $this->post('status');
+
+        $change = $this->tl_model->change_status($id, $status);
+        if($change) {
+             $this->response($change, 200);
+        }
+    }
+
+    public function updateBayar_post()
+    {
+        $id = $this->post('id_tl');
+        $status = $this->post('status');
+        $total = $this->post('total');
+
+        $change = $this->tl_model->bayarUpdate($id, $status, $total);
+        if($change) {
+             $this->response($change, 200);
+        }
+    }
+
+    public function updateSub_post()
+    {
+        $id = $this->post('id_tl');
+        $jumlah = $this->post('sub_total');
+
+        $change = $this->tl_model->update_subtotal($id, $jumlah);
+        if($change) {
+             $this->response($change, 200);
+        }
+    }
+
+    public function codelength_get()
+    {
+      $kode = $this->get('kode');
+
+      $transaksi_produk = $this->tl_model->getCodeLength($kode);
+      $transaksi_produk = count($transaksi_produk);
+      if($transaksi_produk) {
+        $this->response($transaksi_produk, 200);
+      }
     }
 
     public function index_post($id = null) //Method Post untuk menyimpan Data namun disini juga disamain untuk update, jadi tidak ada method Put

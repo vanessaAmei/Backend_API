@@ -7,7 +7,6 @@ class layanan_model extends CI_Model
     public $id_layanan;
     public $nama;
     public $id_ukuran_hewan;
-    public $id_jenis_hewan;
     public $harga;
     public $created_at;
     public $updated_at;
@@ -26,12 +25,6 @@ class layanan_model extends CI_Model
             'rules' => 'required'
         ],
         [
-            'field' => 'id_jenis_hewan',
-            'label' => 'id_jenis_hewan',
-            'rules' => 'required'
-        ],
-
-        [
             'field' => 'id_ukuran_hewan',
             'label' => 'id_ukuran_hewan',
             'rules' => 'required'
@@ -40,23 +33,25 @@ class layanan_model extends CI_Model
     public function Rules() { return $this->rule; } //Fungsi untuk return nilai rule dimana untuk di cek
 
     public function getAll() {
-        // $this->db->select('*');
-        // $this->db->from('layanan');
-        // $this->db->where('deleted_at IS NULL');
-        $this->db->select('a.id_layanan as "id_layanan", a.nama as "layanan", b.nama as "jenis", c.nama as "ukuran" , a.harga as "harga"');
+        $this->db->select('a.id_layanan as "id_layanan", a.nama as "layanan", c.nama as "ukuran" , a.harga as "harga"');
         $this->db->from('layanan a');
-        $this->db->join('jenis_hewan b', 'id_jenis_hewan');
         $this->db->join('ukuran_hewan c', 'id_ukuran_hewan');
         $this->db->where('a.deleted_at IS NULL');        
         return $this->db->get()->result_array();
-        // return $this->db->get()->result();
+    }
 
+    public function getLayanan($id_ukuran_hewan) {
+        $this->db->select('a.id_layanan as "id_layanan", a.nama as "layanan", c.nama as "ukuran" , a.harga as "harga"');
+        $this->db->from('layanan a');
+        $this->db->join('ukuran_hewan c', 'id_ukuran_hewan');
+        $this->db->where('a.deleted_at IS NULL');
+        $this->db->where('a.id_ukuran_hewan', $id_ukuran_hewan);        
+        return $this->db->get()->result_array();
     }
 
     public function store($request) {   //Fungsi untuk menyimpan data
         $this->nama = $request->nama;
         $this->harga = $request->harga;
-        $this->id_jenis_hewan = $request->id_jenis_hewan;
         $this->id_ukuran_hewan = $request->id_ukuran_hewan;
         $this->created_at = date("Y-m-d H:i:s"); //Mengambil nilai date dari local sesuai format, jadi untuk format ini menggunakan Timestamp
         // $this->created_at = date("Y-m-d"); Yang ini menggunakan format Date
@@ -71,7 +66,7 @@ class layanan_model extends CI_Model
 
         $this->updated_at = date("Y-m-d H:i:s"); 
         $updateData = ['nama' => $request->nama ,'harga' => $request->harga, 
-        'id_ukuran_hewan' => $request->id_ukuran_hewan, 'id_jenis_hewan' => $request->id_jenis_hewan,
+        'id_ukuran_hewan' => $request->id_ukuran_hewan, 
         'updated_at' => $this->updated_at]; //Memasukan nilai data update terbaru
 
         if($this->db->where('id_layanan',$id)->update($this->table, $updateData)) //Query Update dimana data nya yaitu $updateData

@@ -48,7 +48,7 @@ class hewan_model extends CI_Model
 
     public function getAll()
     {
-        $this->db->select('h.id_hewan as "id_hewan", h.nama as "nama", h.tgl_lahir as "tgl_lahir", jh.nama as "jenis_hewan", uh.nama as "ukuran_hewan", c.nama as "customer"');
+        $this->db->select('h.id_hewan as "id_hewan", h.nama as "nama", h.tgl_lahir as "tgl_lahir", jh.nama as "jenis_hewan", uh.id_ukuran_hewan as "id_ukuran_hewan", uh.nama as "ukuran_hewan", c.nama as "customer"');
         $this->db->from('hewan h');
         $this->db->join('jenis_hewan jh', 'id_jenis_hewan');
         $this->db->join('ukuran_hewan uh', 'id_ukuran_hewan');
@@ -105,16 +105,6 @@ class hewan_model extends CI_Model
         $this->db->where('id_hewan',$id);
         return $this->db->get()->result_array();
     }
-
-    // public function destroy($id)  //Fungsi Untuk Delete
-    // {
-    //     if (empty($this->db->select('*')->where(array('id' => $id))->get($this->table)->row())) return ['msg' => 'Id tidak ditemukan', 'error' => true];
-
-    //     if ($this->db->delete($this->table, array('id' => $id))) {
-    //         return ['msg' => 'Berhasil', 'error' => false];
-    //     }
-    //     return ['msg' => 'Gagal', 'error' => true];
-    // }
    
 }
 ?>
