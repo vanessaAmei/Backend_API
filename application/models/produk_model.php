@@ -53,10 +53,41 @@ class produk_model extends CI_Model
         $this->db->from('produk');
         $this->db->where('deleted_at IS NULL');
         return $this->db->get()->result_array();
-
     }
 
-    
+    public function getStokHabis() {
+        $this->db->select('*');
+        $this->db->from('produk');
+        $this->db->where('deleted_at IS NULL');
+        $this->db->where('stok<=minimal');
+        return $this->db->get()->result_array();
+    }
+
+    public function getStok() {
+        $this->db->select('*');
+        $this->db->from('produk');
+        $this->db->where('deleted_at IS NULL');
+        $this->db->where('stok>=minimal');
+        return $this->db->get()->result_array();
+    }
+
+    public function change_jumlah($id, $new_jumlah)
+    {
+        $update=$this->db->query("UPDATE produk SET stok=stok+$new_jumlah WHERE id_produk='$id'");
+        if($update){
+            return ['msg'=>'Berhasil Update Jumlah','error'=>false];
+        }
+        // $this->updated_at = date("Y-m-d H:i:s"); 
+        // $this->stok = $request->stok;
+        // $updateData = [ 'stok' => $request->stok,
+        //                 'updated_at' => $this->updated_at]; 
+        
+        // if($this->db->where('id_produk',$id)->update($this->table, $updateData)) 
+        // {
+        //     return ['msg'=>'Berhasil Update Produk','error'=>false];
+        // }
+        //     return ['msg'=>'Gagal Update Produk','error'=>true];
+    }
 
     public function store($request) {   //Fungsi untuk menyimpan data
         $this->nama = $request->nama;   //Gunakan $Request untuk mengambil data yang diinputkan oleh user
@@ -84,16 +115,9 @@ class produk_model extends CI_Model
                         'minimal' => $request->minimal,
                         'satuan' => $request->satuan, 
                         'gambar' => $this->gambar,
-                        'updated_at' => $this->updated_at]; //Memasukan nilai data update terbaru
+                        'updated_at' => $this->updated_at]; 
         
-                
-        // if(!empty($_FILES['gambar']['nama'])){
-        //     $this->gambar = $this->_uploadImage();
-        // }else{
-        //     $this->gambar = "default.jpg";
-        // }
-        
-        if($this->db->where('id_produk',$id)->update($this->table, $updateData)) //Query Update dimana data nya yaitu $updateData
+        if($this->db->where('id_produk',$id)->update($this->table, $updateData)) 
         {
             return ['msg'=>'Berhasil Update Produk','error'=>false];
         }

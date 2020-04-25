@@ -11,6 +11,7 @@ Class Transaksi_Layanan extends REST_Controller
         parent::__construct();
         $this->load->model('tl_model'); //Akses Model data nya untuk Controller ini
         $this->load->library('form_validation');
+        $this->load->library('pdf');
     }
 
     public function index_get() //Method GET untuk mengambil semua Data pada Database
@@ -53,11 +54,6 @@ Class Transaksi_Layanan extends REST_Controller
         echo json_encode($query);
     }
 
-    // public function dataSelesai_get(){
-    //     $query = $this->tl_model->getSelesai();
-    //     echo json_encode($query);
-    // }
-
     public function updateHewan_post()
     {       
         $id = $this->post('id_tl');
@@ -84,7 +80,7 @@ Class Transaksi_Layanan extends REST_Controller
     {
         $id = $this->post('id_tl');
         $status = $this->post('status');
-        $total = $this->post('total');
+        $total = $this->post('total_harga');
 
         $change = $this->tl_model->bayarUpdate($id, $status, $total);
         if($change) {
@@ -112,6 +108,16 @@ Class Transaksi_Layanan extends REST_Controller
       if($transaksi_produk) {
         $this->response($transaksi_produk, 200);
       }
+    }
+
+    public function jenis_get()
+    {       
+        $id = $this->get('id_hewan');
+
+        $get = $this->tl_model->getJenis($id);
+        if($get) {
+             $this->response($get, 200);
+        }
     }
 
     public function index_post($id = null) //Method Post untuk menyimpan Data namun disini juga disamain untuk update, jadi tidak ada method Put
@@ -154,8 +160,8 @@ Class Transaksi_Layanan extends REST_Controller
                 'rules' => 'required'
             ],
             [
-                'field' => 'total',
-                'label' => 'total',
+                'field' => 'total_harga',
+                'label' => 'total_harga',
                 'rules' => 'required'
             ],
             [
@@ -201,8 +207,8 @@ Class Transaksi_Layanan extends REST_Controller
                 'rules' => 'required'
             ],
             [
-                'field' => 'total',
-                'label' => 'total',
+                'field' => 'total_harga',
+                'label' => 'total_harga',
                 'rules' => 'required'
             ],
             [
@@ -226,7 +232,7 @@ Class Transaksi_Layanan extends REST_Controller
         $tp->kode = $this->post('kode');
         $tp->tanggal = $this->post('tanggal');
         $tp->sub_total = $this->post('sub_total');
-        $tp->total = $this->post('total');
+        $tp->total_harga = $this->post('total_harga');
         $tp->status = $this->post('status');
         $tp->created_by = $this->post('created_by');
          //Memasukkan Data dari form inputan
@@ -260,6 +266,8 @@ Class Transaksi_Layanan extends REST_Controller
         $response['message']=$msg;
         return $this->response($response);
     }
+
+
 }
 
 //Class Entity Untuk Data
@@ -271,7 +279,7 @@ Class tlData
     public $kode;
     public $tanggal;
     public $sub_total;
-    public $total;
+    public $total_harga;
     public $status;
     public $created_at;
     public $updated_at;

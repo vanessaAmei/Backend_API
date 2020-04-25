@@ -12,7 +12,7 @@ class tl_model extends CI_Model
     public $kode;
     public $tanggal;
     public $sub_total;
-    public $total;
+    public $total_harga;
     public $status;
     public $created_at;
     public $updated_at;
@@ -54,8 +54,8 @@ class tl_model extends CI_Model
             'rules' => 'required'
         ],
         [
-            'field' => 'total',
-            'label' => 'total',
+            'field' => 'total_harga',
+            'label' => 'total_harga',
             'rules' => 'required'
         ],
         [
@@ -69,19 +69,19 @@ class tl_model extends CI_Model
     public function getAll() {
         $this->db->select('a.id_tl as "id_tl", a.id_hewan as "id_hewan", b.id_ukuran_hewan as "id_ukuran_hewan", b.nama as "hewan", a.id_pegawai_k as "id_pegawai_k", c.nama as "Kasir", a.id_pegawai_cs as "id_pegawai_cs", d.nama as "customer_service",
              a.kode as "kode", a.tanggal as "tanggal", 
-             a.sub_total as "sub_total", a.total as "total", a.status as "status"');
+             a.sub_total as "sub_total", a.total_harga as "total_harga", a.status as "status"');
              $this->db->from('transaksi_layanan a');
              $this->db->join('hewan b', 'id_hewan');
              $this->db->join('pegawai c', 'a.id_pegawai_cs = c.id_pegawai');
              $this->db->join('pegawai d', 'a.id_pegawai_cs = d.id_pegawai');
-             $this->db->where('a.status =', 'Proses');
+             $this->db->where('a.status =', 'Penjualan');
              return $query = $this->db->get()->result_array();
     }
 
     public function getBatal() {
         $this->db->select('a.id_tl as "id_tl", a.id_hewan as "id_hewan", b.nama as "hewan", b.id_ukuran_hewan as "id_ukuran_hewan", a.id_pegawai_k as "id_pegawai_k", c.nama as "Kasir", a.id_pegawai_cs as "id_pegawai_cs", d.nama as "customer_service",
              a.kode as "kode", a.tanggal as "tanggal", 
-             a.sub_total as "sub_total", a.total as "total", a.status as "status"');
+             a.sub_total as "sub_total", a.total_harga as "total_harga", a.status as "status"');
              $this->db->from('transaksi_layanan a');
              $this->db->join('hewan b', 'id_hewan');
              $this->db->join('pegawai c', 'a.id_pegawai_cs = c.id_pegawai');
@@ -93,7 +93,7 @@ class tl_model extends CI_Model
     public function getSelesai() {
         $this->db->select('a.id_tl as "id_tl", a.id_hewan as "id_hewan", b.nama as "hewan", b.id_ukuran_hewan as "id_ukuran_hewan", a.id_pegawai_k as "id_pegawai_k", c.nama as "Kasir", a.id_pegawai_cs as "id_pegawai_cs", d.nama as "customer_service",
              a.kode as "kode", a.tanggal as "tanggal", 
-             a.sub_total as "sub_total", a.total as "total", a.status as "status"');
+             a.sub_total as "sub_total", a.total_harga as "total_harga", a.status as "status"');
              $this->db->from('transaksi_layanan a');
              $this->db->join('hewan b', 'id_hewan');
              $this->db->join('pegawai c', 'a.id_pegawai_cs = c.id_pegawai');
@@ -105,7 +105,7 @@ class tl_model extends CI_Model
     public function getBayar() {
         $this->db->select('a.id_tl as "id_tl", a.id_hewan as "id_hewan", b.id_ukuran_hewan as "id_ukuran_hewan", b.nama as "hewan", a.id_pegawai_k as "id_pegawai_k", c.nama as "Kasir", a.id_pegawai_cs as "id_pegawai_cs", d.nama as "customer_service",
         a.kode as "kode", a.tanggal as "tanggal", 
-        a.sub_total as "sub_total", a.total as "total", a.status as "status"');
+        a.sub_total as "sub_total", a.total_harga as "total_harga", a.status as "status"');
         $this->db->from('transaksi_layanan a');
         $this->db->join('hewan b', 'id_hewan');
         $this->db->join('pegawai c', 'a.id_pegawai_cs = c.id_pegawai');
@@ -114,13 +114,19 @@ class tl_model extends CI_Model
         return $query = $this->db->get()->result_array();
     }
 
+    public function getJenis($id) {
+        $query= "SELECT a.nama  FROM jenis_hewan a WHERE a.id_jenis_hewan = (SELECT b.id_jenis_hewan FROM hewan b WHERE b.id_hewan='$id')";
+        $result = $this->db->query($query);
+        return $result->result();
+    }
+
 
     public function getByIndex()
     {
         // return $this->db->get_where($this->_table, ["id_tl" => $id])->row();
         $query = "SELECT a.id_tl, b.nama as 'hewan', c.nama as 'Kasir', d.nama as 'customer_service',
         a.kode as 'kode', a.tanggal as 'tanggal', 
-        a.sub_total as 'sub_total', a.total as 'total'
+        a.sub_total as 'sub_total', a.total_harga as 'total_harga'
         FROM transaksi_layanan a 
         JOIN hewan b ON b.id_hewan=a.id_hewan JOIN pegawai c ON c.id_pegawai=a.id_pegawai_k JOIN pegawai d ON d.id_pegawai=a.id_pegawai_cs";
 
@@ -145,7 +151,7 @@ class tl_model extends CI_Model
 
     public function bayarUpdate($id, $new_status, $new_total)
     {
-            $update_pass=$this->db->query("UPDATE transaksi_layanan SET status='$new_status', total='$new_total' WHERE id_tl='$id'");
+            $update_pass=$this->db->query("UPDATE transaksi_layanan SET status='$new_status', total_harga='$new_total' WHERE id_tl='$id'");
             if($update_pass){
                 return ['msg'=>'Berhasil Selesai Pembayaran','error'=>false];
             }
@@ -182,7 +188,7 @@ class tl_model extends CI_Model
         $this->kode = $request->kode;
         $this->tanggal = $request->tanggal;
         $this->sub_total = $request->sub_total;
-        $this->total = $request->total;
+        $this->total_harga = $request->total_harga;
         $this->status = $request->status;
         $this->created_at = date("Y-m-d H:i:s");
         $this->created_by = $request->created_by;  //Mengambil nilai date dari local sesuai format, jadi untuk format ini menggunakan Timestamp
@@ -203,7 +209,7 @@ class tl_model extends CI_Model
                         'kode' => $request->kode,
                         'tanggal' => $request->tanggal,
                         'sub_total' => $request->sub_total, 
-                        'total' => $request->total,
+                        'total_harga' => $request->total_harga,
                         'status' => $request->status,
                         'updated_by' => $request->updated_by,
                         'updated_at' => $this->updated_at]; //Memasukan nilai data update terbaru

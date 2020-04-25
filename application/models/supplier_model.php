@@ -43,6 +43,14 @@ class supplier_model extends CI_Model
 
     }
 
+    public function getById($id)
+    {
+        $this->db->select('*');
+        $this->db->from('supplier');
+        $this->db->where('id_supplier', $id);
+        return $this->db->get()->result_array();
+    }
+
     public function store($request) {   //Fungsi untuk menyimpan data
         $this->nama = $request->nama;   //Gunakan $Request untuk mengambil data yang diinputkan oleh user
         $this->alamat = $request->alamat;
@@ -81,10 +89,7 @@ class supplier_model extends CI_Model
             return ['msg'=>'Gagal Hapus Supplier','error'=>true];
     }
 
-    public function getById($id)
-    {
-        return $this->db->get_where($this->_table, ["id_supplier" => $id])->row();
-    }
+    
 
     // public function destroy($id)  //Fungsi Untuk Delete
     // {

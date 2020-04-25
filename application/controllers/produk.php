@@ -23,6 +23,33 @@ Class Produk extends REST_Controller
        
     }
 
+    public function stokHabis_get() //Method GET untuk mengambil semua Data pada Database
+    {
+        $query = $this->produk_model->getStokHabis();
+        echo json_encode($query);
+    }
+
+    public function stok_get() //Method GET untuk mengambil semua Data pada Database
+    {
+        $query = $this->produk_model->getStok();
+        echo json_encode($query);
+    }
+
+    public function changeJumlah_post()
+    {
+        $id = $this->post('id_produk');
+        $jumlah = $this->post('stok');
+        $change = $this->produk_model->change_jumlah($id, $jumlah);
+        if($change) {
+             $this->response($change, 200);
+        }
+        // $produk = new produkData();
+        // $produk->stok = $this->post('stok');
+        // $response = $this->produk_model->change_jumlah($id, $produk);
+        // return $this->returnData($response['msg'], $response['error']);
+
+    }
+
     public function index_post($id = null) //Method Post untuk menyimpan Data namun disini juga disamain untuk update, jadi tidak ada method Put
     {
         $validation = $this->form_validation; //Load Form Validation
@@ -142,6 +169,7 @@ Class Produk extends REST_Controller
 //Class Entity Untuk Data
 Class produkData
 {
+    public $id_produk;
     public $nama;
     public $harga;
     public $minimal;
