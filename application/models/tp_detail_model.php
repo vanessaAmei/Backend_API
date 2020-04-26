@@ -97,6 +97,17 @@ class tp_detail_model extends CI_Model
         return ['msg' => 'Gagal', 'error'=>true];
     }
 
+    public function deleteDetail($id) { //Fungsi untuk Soft Delete
+
+        if(empty($this->db->select('*')->where(array('id_tp' => $id))->get($this->table)->row())) 
+            return ['msg' => 'Id tidak ditemukan', 'error'=>true];
+
+        if($this->db->delete($this->table, array('id_tp'=> $id))){
+            return ['msg' => 'Berhasil', 'error'=>false];
+        }
+        return ['msg' => 'Gagal', 'error'=>true];
+    }
+
     public function getTp($kode){
 
         $query = "SELECT id_tp FROM transaksi_produk WHERE kode = '$kode'";

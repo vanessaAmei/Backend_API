@@ -1,6 +1,6 @@
 <html>
 <head>
-	<title>Login - CodeIgniter</title>
+	<title>Login - Admin</title>
     <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link href="<?php echo base_url('assets/css/loginCSS.css') ?>" rel="stylesheet">
     <style>
@@ -81,18 +81,17 @@
         }
     </style>
 </head>
-<body>
-<div class="container" style="margin-top: 50px">
+<body style="background-image: url('https://wallup.net/wp-content/uploads/2017/11/23/522579-simple_background-blue_background-vector_graphics-abstract-748x421.jpg'); background-attachment: fixed; background-size: 100% 158%;">
+<div class="container" style="margin-top: 120px">
     <div class="row">
-        <div class="col-sm-6 col-md-4 col-md-offset-4">
+        <div class="col-sm-12 col-md-6 col-md-offset-3">
             <?php if(isset($error)) { echo $error; }; ?>
             
             <div class="account-wall">
             
-            <h5 class="card-title text-center">SIGN IN</h5>
+            <h5 class="card-title text-center">SIGN IN ADMIN</h5>
             <span class="clearfix"></span>
-                <img class="profile-img" src="<?php echo base_url('assets/images/logo.jpg') ?>"
-                    alt="">    
+                <!-- <img class="profile-img" src="<?php echo base_url('assets/images/logo.jpg') ?>"  alt="">     -->
                 <form class="form-signin" method="POST" action="<?php echo base_url() ?>index.php/login">
                 <div class="form-group">
                     <input type="text" class="form-control" name="username" placeholder="Masukkan Username Anda" autofocus>

@@ -130,6 +130,17 @@ Class Tp_Detail extends REST_Controller
         $response = $this->tp_detail_model->destroy($id); //Mengakses Fugsi Delete dari Model, melakukan Soft Delete
         return $this->returnData($response['msg'], $response['error']);
     }
+
+    public function deleteDetail_delete($id = null)
+    {
+        if($id == null)
+        {
+            return $this->returnData('ID tp Tidak Ditemukan', true); 
+        }
+
+        $response = $this->tp_detail_model->deleteDetail($id); 
+        return $this->returnData($response['msg'], $response['error']);
+    }
     
     public function returnData($msg,$error) //Fungsi untuk me-return kan Nilai balikkan setelah melakukan Method apapun seperti Error dan Pesan
     {
