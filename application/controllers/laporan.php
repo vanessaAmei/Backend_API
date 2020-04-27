@@ -33,11 +33,26 @@ Class Laporan extends REST_Controller
         $query = $this->laporan_model->produkTerlaris($bulan, $tahun);
         echo json_encode($query);
     }
+    
+    public function layananTerlaris_get(){
+        $tahun = $this->get('tahun');
+        $bulan = $this->get('bulan');
+        $query = $this->laporan_model->layananTerlaris($bulan, $tahun);
+        echo json_encode($query);
+    }
+    
 
     public function pendapatanBulananProduk_get(){
         $tahun = $this->get('tahun');
         $bulan = $this->get('bulan');
         $query = $this->laporan_model->pendapatanProdukBulanan($bulan, $tahun);
+        echo json_encode($query);
+    }
+
+    public function pendapatanBulananLayanan_get(){
+        $tahun = $this->get('tahun');
+        $bulan = $this->get('bulan');
+        $query = $this->laporan_model->layananBulanan($bulan, $tahun);
         echo json_encode($query);
     }
 
