@@ -112,6 +112,17 @@ class Pengadaan_model extends CI_Model
             return ['msg'=>'Gagal Input Pengadaan','error'=>true];
     }
 
+    public function destroy($id) { //Fungsi untuk Soft Delete
+
+        if(empty($this->db->select('*')->where(array('id_pengadaan' => $id))->get($this->table)->row())) 
+            return ['msg' => 'Id tidak ditemukan', 'error'=>true];
+
+        if($this->db->delete($this->table, array('id_pengadaan'=> $id))){
+            return ['msg' => 'Berhasil', 'error'=>false];
+        }
+        return ['msg' => 'Gagal', 'error'=>true];
+    }
+
     public function update($request,$id) { //Fungsi untuk update data
 
         $this->updated_at = date("Y-m-d H:i:s"); 

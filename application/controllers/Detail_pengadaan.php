@@ -158,6 +158,17 @@ Class Detail_pengadaan extends REST_Controller
         $response = $this->detailpengadaan_model->destroy($id);
         return $this->returnData($response['msg'], $response['error']);
     }
+
+    public function deletePengadaan_delete($id = null) 
+    {
+        if($id == null)
+        {
+            return $this->returnData('ID Pengadaan Tidak Ditemukan', true); 
+        }
+
+        $response = $this->detailpengadaan_model->deletePengadaan($id);
+        return $this->returnData($response['msg'], $response['error']);
+    }
     
     public function returnData($msg,$error)
     {

@@ -118,6 +118,17 @@ class Detailpengadaan_model extends CI_Model
         }
         return ['msg' => 'Gagal', 'error'=>true];
     }
+
+    public function deletePengadaan($id) { //Fungsi untuk Soft Delete
+
+        if(empty($this->db->select('*')->where(array('id_pengadaan' => $id))->get($this->table)->row())) 
+            return ['msg' => 'Id tidak ditemukan', 'error'=>true];
+
+        if($this->db->delete($this->table, array('id_pengadaan'=> $id))){
+            return ['msg' => 'Berhasil', 'error'=>false];
+        }
+        return ['msg' => 'Gagal', 'error'=>true];
+    }
     
 }
 ?>

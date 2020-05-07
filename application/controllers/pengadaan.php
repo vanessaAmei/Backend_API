@@ -164,6 +164,17 @@ Class Pengadaan extends REST_Controller
         return $this->returnData($response['msg'], $response['error']);
     }
     
+    public function index_delete($id = null) 
+    {
+        if($id == null)
+        {
+            return $this->returnData('ID tl Tidak Ditemukan', true); 
+        }
+
+        $response = $this->pengadaan_model->destroy($id);
+        return $this->returnData($response['msg'], $response['error']);
+    }
+
     public function returnData($msg,$error) //Fungsi untuk me-return kan Nilai balikkan setelah melakukan Method apapun seperti Error dan Pesan
     {
         $response['error']=$error;

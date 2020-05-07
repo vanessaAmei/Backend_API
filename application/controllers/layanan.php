@@ -10,6 +10,7 @@ Class Layanan extends REST_Controller
         parent::__construct();
         $this->load->model('layanan_model'); //Akses Model data nya untuk Controller ini
         $this->load->library('form_validation');
+        $this->load->library('smsgateway'); 
     }
 
     public function index_get() //Method GET untuk mengambil semua Data pada Database
@@ -34,6 +35,17 @@ Class Layanan extends REST_Controller
         $this->response($layanan, 200);
       }
     }
+
+    public function kirimsms_post() {
+        $to = $this->post('no_hp');
+        $message = $this->post('pesan');
+        $deviceID = 117078;
+        $options = [];
+       
+  
+        $result = $this->smsgateway->sendMessageToNumber($to, $message, $deviceID, $options);
+        print_r($result);
+      }
 
     public function index_post($id = null) //Method Post untuk menyimpan Data namun disini juga disamain untuk update, jadi tidak ada method Put
     {

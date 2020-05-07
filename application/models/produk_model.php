@@ -67,7 +67,7 @@ class produk_model extends CI_Model
         $this->db->select('*');
         $this->db->from('produk');
         $this->db->where('deleted_at IS NULL');
-        $this->db->where('stok>=minimal');
+        $this->db->where('stok>minimal');
         return $this->db->get()->result_array();
     }
 
