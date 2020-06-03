@@ -69,6 +69,12 @@ class pegawai_model extends CI_Model
         $this->db->where('peran !=', 'Owner');
         return $this->db->get()->result_array();
         // return $this->db->get()->result();
+    }
+
+    public function getAllData() {
+        $this->db->select('*');
+        $this->db->from('pegawai');
+        return $this->db->get()->result_array();
 
     }
 

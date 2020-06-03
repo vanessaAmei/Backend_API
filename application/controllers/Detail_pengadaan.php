@@ -54,6 +54,28 @@ Class Detail_pengadaan extends REST_Controller
         }
     }
 
+    public function changeTotalby_post()
+    {
+        $id = $this->post('id_pengadaan');
+        $total = $this->post('total_harga');
+
+        $change = $this->detailpengadaan_model->change_totalby($id, $total);
+        if($change) {
+             $this->response($change, 200);
+        }
+    }
+
+    public function changeTotalmin_post()
+    {
+        $id = $this->post('id_pengadaan');
+        $total = $this->post('total_harga');
+
+        $change = $this->detailpengadaan_model->change_totalmin($id, $total);
+        if($change) {
+             $this->response($change, 200);
+        }
+    }
+
     public function changeJumlah_post()
     {
         $id = $this->post('id_detail_p');

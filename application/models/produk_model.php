@@ -55,6 +55,12 @@ class produk_model extends CI_Model
         return $this->db->get()->result_array();
     }
 
+    public function getAllData() {
+        $this->db->select('*');
+        $this->db->from('produk');
+        return $this->db->get()->result_array();
+    }
+
     public function getStokHabis() {
         $this->db->select('*');
         $this->db->from('produk');

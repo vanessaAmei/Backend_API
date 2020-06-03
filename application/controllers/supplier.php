@@ -25,6 +25,12 @@ Class Supplier extends REST_Controller
         }
     }
 
+    public function data_get() //Method GET untuk mengambil semua Data pada Database
+    {
+            $query = $this->supplier_model->getAllData();
+            echo json_encode($query);
+    }
+
     public function index_post($id = null) //Method Post untuk menyimpan Data namun disini juga disamain untuk update, jadi tidak ada method Put
     {
         $validation = $this->form_validation; //Load Form Validation

@@ -52,6 +52,13 @@ class customer_model extends CI_Model
         // return $this->db->get()->result();
     }
 
+    public function getAllData() {
+        $this->db->select('*');
+        $this->db->from('customer');
+        return $this->db->get()->result_array();
+        // return $this->db->get()->result();
+    }
+
     public function store($request) {   //Fungsi untuk menyimpan data
         $this->nama = $request->nama;   //Gunakan $Request untuk mengambil data yang diinputkan oleh user
         $this->tgl_lahir = $request->tgl_lahir;

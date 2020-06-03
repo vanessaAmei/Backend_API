@@ -26,6 +26,12 @@ Class Layanan extends REST_Controller
         } 
     }
 
+    public function data_get() //Method GET untuk mengambil semua Data pada Database
+    {
+            $query = $this->layanan_model->getAllData();
+            echo json_encode($query);
+    }
+
     public function layananUkuran_get()
     {
       $id_ukuran_hewan = $this->get('id_ukuran_hewan');

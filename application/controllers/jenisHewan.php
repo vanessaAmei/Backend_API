@@ -19,6 +19,13 @@ Class JenisHewan extends REST_Controller
         echo json_encode($query);
     }
 
+    public function data_get() //Method GET untuk mengambil semua Data pada Database
+    {
+        // return $this->returnData($this->db->get('jenis_hewan')->result(), false);
+        $query = $this->jenisHewan_model->getAllData();
+        echo json_encode($query);
+    }
+
     public function index_post($id = null) //Method Post untuk menyimpan Data namun disini juga disamain untuk update, jadi tidak ada method Put
     {
         $validation = $this->form_validation; //Load Form Validation

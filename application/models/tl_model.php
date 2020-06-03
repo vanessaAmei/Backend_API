@@ -69,7 +69,8 @@ class tl_model extends CI_Model
     public function getAll() {
         $this->db->select('a.id_tl as "id_tl", a.id_hewan as "id_hewan", b.id_ukuran_hewan as "id_ukuran_hewan", b.nama as "hewan", a.id_pegawai_k as "id_pegawai_k", c.nama as "Kasir", a.id_pegawai_cs as "id_pegawai_cs", d.nama as "customer_service",
              a.kode as "kode", a.tanggal as "tanggal", 
-             a.sub_total as "sub_total", a.total_harga as "total_harga", a.status as "status"');
+             a.sub_total as "sub_total", a.total_harga as "total_harga", a.status as "status", a.created_at as "created_at", a.updated_at as "updated_at",
+             a.created_by as "created_by", a.updated_by as "updated_by"');
              $this->db->from('transaksi_layanan a');
              $this->db->join('hewan b', 'id_hewan');
              $this->db->join('pegawai c', 'a.id_pegawai_cs = c.id_pegawai');

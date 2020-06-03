@@ -21,6 +21,14 @@ Class Customer extends REST_Controller
         echo json_encode($query);
     }
 
+    public function data_get() //Method GET untuk mengambil semua Data pada Database
+    {
+        // return $this->customer_model->getAll();
+        // return $this->returnData($this->db->get('customer')->result(), false);
+        $query = $this->customer_model->getAllData();
+        echo json_encode($query);
+    }
+
     public function index_post($id = null) //Method Post untuk menyimpan Data namun disini juga disamain untuk update, jadi tidak ada method Put
     {
         $validation = $this->form_validation; //Load Form Validation

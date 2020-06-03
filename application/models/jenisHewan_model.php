@@ -28,6 +28,14 @@ class jenisHewan_model extends CI_Model
         // return $this->db->get()->result();
 
     }
+
+    public function getAllData() {
+        $this->db->select('*');
+        $this->db->from('jenis_hewan');
+        return $this->db->get()->result_array();
+        // return $this->db->get()->result();
+
+    }
     public function store($request) {   //Fungsi untuk menyimpan data
         $this->nama = $request->nama;   //Gunakan $Request untuk mengambil data yang diinputkan oleh user
         $this->created_at = date("Y-m-d H:i:s"); //Mengambil nilai date dari local sesuai format, jadi untuk format ini menggunakan Timestamp

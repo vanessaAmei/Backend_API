@@ -40,6 +40,13 @@ class layanan_model extends CI_Model
         return $this->db->get()->result_array();
     }
 
+    public function getAllData() {
+        $this->db->select('a.id_layanan as "id_layanan", a.nama as "layanan", c.nama as "ukuran" , a.harga as "harga", a.created_at as "created_at", a.updated_at as "updated_at", a.deleted_at as "deleted_at"');
+        $this->db->from('layanan a');
+        $this->db->join('ukuran_hewan c', 'id_ukuran_hewan');     
+        return $this->db->get()->result_array();
+    }
+
     public function getLayanan($id_ukuran_hewan) {
         $this->db->select('a.id_layanan as "id_layanan", a.nama as "layanan", c.nama as "ukuran" , a.harga as "harga"');
         $this->db->from('layanan a');

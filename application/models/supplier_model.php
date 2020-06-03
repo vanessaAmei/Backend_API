@@ -43,6 +43,14 @@ class supplier_model extends CI_Model
 
     }
 
+    public function getAllData() {
+        $this->db->select('*');
+        $this->db->from('supplier');
+        return $this->db->get()->result_array();
+        // return $this->db->get()->result();
+
+    }
+
     public function getById($id)
     {
         $this->db->select('*');

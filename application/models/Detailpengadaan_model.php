@@ -68,6 +68,22 @@ class Detailpengadaan_model extends CI_Model
             }
     }
 
+    public function change_totalby($id, $new_total)
+    {
+            $update=$this->db->query("UPDATE pengadaan SET total_harga=total_harga+'$new_total'  where id_pengadaan='$id'");
+            if($update){
+                return ['msg'=>'Berhasil Update Total','error'=>false];
+            }
+    }
+
+    public function change_totalmin($id, $new_total)
+    {
+            $update=$this->db->query("UPDATE pengadaan SET total_harga=total_harga-'$new_total'  where id_pengadaan='$id'");
+            if($update){
+                return ['msg'=>'Berhasil Update Total','error'=>false];
+            }
+    }
+
     public function change_jumlah($id, $new_jumlah, $harga)
     {
             $update=$this->db->query("UPDATE detail_pengadaan SET jumlah='$new_jumlah', total=($harga*$new_jumlah)  where id_detail_p='$id'");

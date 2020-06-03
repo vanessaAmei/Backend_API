@@ -33,8 +33,12 @@ Class Pegawai extends REST_Controller
         }
         
     }
-        // $query = $this->pegawai_model->getAll();
-        // echo json_encode($query);
+    
+    public function data_get() //Method GET untuk mengambil semua Data pada Database
+    {
+            $query = $this->pegawai_model->getAllData();
+            echo json_encode($query);
+    }
 
     public function getNameCS() //Method GET untuk mengambil semua Data pada Database
     {

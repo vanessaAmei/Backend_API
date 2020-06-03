@@ -23,6 +23,14 @@ Class Produk extends REST_Controller
        
     }
 
+    public function data_get() //Method GET untuk mengambil semua Data pada Database
+    {
+        
+        $query = $this->produk_model->getAllData();
+        echo json_encode($query);
+       
+    }
+
     public function stokHabis_get() //Method GET untuk mengambil semua Data pada Database
     {
         $query = $this->produk_model->getStokHabis();

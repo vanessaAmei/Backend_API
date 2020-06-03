@@ -44,7 +44,7 @@ class Pengadaan_model extends CI_Model
     public function Rules() { return $this->rule; } //Fungsi untuk return nilai rule dimana untuk di cek
 
     public function getAll() {
-        $this->db->select('a.id_pengadaan as "id_pengadaan", a.id_supplier as "id_supplier", b.nama as "supplier", b.no_telp as "no_telp", b.alamat as "alamat", a.kode as "kode", a.tanggal as "tanggal", a.status as "status", a.total_harga as "total_harga"');
+        $this->db->select('a.id_pengadaan as "id_pengadaan", a.id_supplier as "id_supplier", b.nama as "supplier", b.no_telp as "no_telp", b.alamat as "alamat", a.kode as "kode", a.tanggal as "tanggal", a.status as "status", a.total_harga as "total_harga", a.created_at as "created_at", a.updated_at as "updated_at"');
         $this->db->from('pengadaan a');
         $this->db->join('supplier b', 'id_supplier');
         $this->db->where('a.status="Proses"');        
